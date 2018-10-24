@@ -16,6 +16,10 @@ Version
 v.1.0.0
 1.首次提交
 
+DownloadAPK
+---
+![image](https://github.com/rcj60560/wanandroid/raw/master/screenshoots/download_apk.png)
+
 Thanks
 ---
 API:鸿洋大大提供的 WanAndroid API<br>
