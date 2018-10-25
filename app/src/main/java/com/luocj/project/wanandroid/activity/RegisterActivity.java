@@ -47,25 +47,17 @@ public class RegisterActivity extends AppCompatActivity {
         tilRePassword = findViewById(R.id.til_repassword);
         edRePassword = findViewById(R.id.tiet_repassword);
 
-        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        findViewById(R.id.iv_back).setOnClickListener(v -> finish());
 
-        findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String account = tilAccount.getEditText().getText().toString().trim();
-                String password = tilPassword.getEditText().getText().toString().trim();
-                String rePassword = tilRePassword.getEditText().getText().toString().trim();
-                tilAccount.setErrorEnabled(false);
-                tilPassword.setErrorEnabled(false);
-                //验证用户名和密码
-                if (validateAccount(account) && validatePassword(password) && validateRePassword(rePassword)) {
-                    register(account, password, rePassword);
-                }
+        findViewById(R.id.btn_submit).setOnClickListener(v -> {
+            String account = tilAccount.getEditText().getText().toString().trim();
+            String password = tilPassword.getEditText().getText().toString().trim();
+            String rePassword = tilRePassword.getEditText().getText().toString().trim();
+            tilAccount.setErrorEnabled(false);
+            tilPassword.setErrorEnabled(false);
+            //验证用户名和密码
+            if (validateAccount(account) && validatePassword(password) && validateRePassword(rePassword)) {
+                register(account, password, rePassword);
             }
         });
 
