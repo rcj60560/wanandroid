@@ -59,13 +59,13 @@ public class MineLoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        inflate.findViewById(R.id.ttn_loginout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SPUtils.putBoolean(getActivity(), Constants.LOGIN, false);
-                ((MainActivity) mContext).changeTab(3);
-            }
-        });
+//        inflate.findViewById(R.id.ttn_loginout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SPUtils.putBoolean(getActivity(), Constants.LOGIN, false);
+//                ((MainActivity) mContext).changeTab(3);
+//            }
+//        });
 
         recyclerview = inflate.findViewById(R.id.recyclerview_collect);
         smartrefreshlayout = inflate.findViewById(R.id.smartrefreshlayout);

@@ -28,7 +28,7 @@
         android:id="@+id/smartrefreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ttn_loginout">
+        >
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -45,12 +45,12 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <Button
-        android:id="@+id/ttn_loginout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_bg"
-        android:text="退出登录" />
+    <!--<Button-->
+        <!--android:id="@+id/ttn_loginout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@drawable/btn_bg"-->
+        <!--android:text="退出登录" />-->
 
 </RelativeLayout>

@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void OnBannerClick(int position) {
                 switch (position) {
-                    case 1:
+                    case 0:
                         startActivity(new Intent(mContext, PublicActivity.class));
                         break;
                     default:
