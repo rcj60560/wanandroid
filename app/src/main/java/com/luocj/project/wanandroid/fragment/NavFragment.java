@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,22 +21,21 @@ import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
 import com.luocj.project.wanandroid.activity.RegisterActivity;
-import com.luocj.project.wanandroid.bean.CollectBean;
 import com.luocj.project.wanandroid.bean.RegisterBean;
 import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.utils.Constants;
-import com.luocj.project.wanandroid.utils.OKGO;
 import com.luocj.project.wanandroid.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
-import java.io.Serializable;
-import java.util.List;
+/**
+ * 导航
+ */
 
-public class MineFragment extends Fragment {
+public class NavFragment extends Fragment {
 
-    private static final String TAG = MineFragment.class.getSimpleName();
+    private static final String TAG = NavFragment.class.getSimpleName();
     private static final int REGISTER = 1001;
     private Context mContext;
     private View inflate;
@@ -97,24 +94,24 @@ public class MineFragment extends Fragment {
 
     private void register() {
         Intent intent = new Intent(mContext, RegisterActivity.class);
-        startActivityForResult(intent,MineFragment.REGISTER);
+        startActivityForResult(intent, NavFragment.REGISTER);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MineFragment.REGISTER){
-            if (resultCode == 101){
+        if (requestCode == NavFragment.REGISTER) {
+            if (resultCode == 101) {
                 UserBean userinfo = (UserBean) data.getSerializableExtra(Constants.USERINFO);
                 Log.i(TAG, "onActivityResult: " + userinfo.toString());
-            }else {
+            } else {
 
             }
         }
     }
 
     private void loginOut() {
-        ((MainActivity)mContext).changeTab(3);
+        ((MainActivity) mContext).changeTab(3);
     }
 
     /**
@@ -137,7 +134,7 @@ public class MineFragment extends Fragment {
                             showToast("登录成功！");
                             Log.i(TAG, "onSuccess: userName :----------->" + userBean.getData().getUsername());
 //                            getCollectList();
-                            SPUtils.putBoolean(getActivity(),Constants.LOGIN,true);
+                            SPUtils.putBoolean(getActivity(), Constants.LOGIN, true);
                             switchFragment();
                         } else {
                             showToast(userBean.getErrorMsg());
@@ -162,8 +159,6 @@ public class MineFragment extends Fragment {
     private void switchFragment() {
         ((MainActivity) mContext).changeTab(4);
     }
-
-
 
 
     private void showToast(String body) {

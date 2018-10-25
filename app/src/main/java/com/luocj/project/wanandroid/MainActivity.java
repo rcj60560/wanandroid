@@ -3,7 +3,6 @@ package com.luocj.project.wanandroid;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,13 +15,11 @@ import android.widget.ImageView;
 
 import com.luocj.project.wanandroid.activity.BaseActivity;
 import com.luocj.project.wanandroid.fragment.HomeFragment;
-import com.luocj.project.wanandroid.fragment.MineLoginFragment;
 import com.luocj.project.wanandroid.fragment.ProjectFragment;
-import com.luocj.project.wanandroid.fragment.MineFragment;
+import com.luocj.project.wanandroid.fragment.NavFragment;
 import com.luocj.project.wanandroid.fragment.TiXiFragment;
 import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.SPUtils;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 
@@ -66,9 +63,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
         fragments.add(new TiXiFragment());
+        fragments.add(new NavFragment());
         fragments.add(new ProjectFragment());
-        fragments.add(new MineFragment());
-        fragments.add(new MineLoginFragment());
+//        fragments.add(new MineLoginFragment());
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.fl_container, fragments.get(ZERO));
