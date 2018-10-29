@@ -58,7 +58,6 @@ public class ProjectFragment extends Fragment {
 
         tablayout = inflate.findViewById(R.id.tablayout);
         viewpager = inflate.findViewById(R.id.viewpager);
-
         tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
@@ -73,22 +72,13 @@ public class ProjectFragment extends Fragment {
         OKGO.get(url, "projectfragment", new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                ArrayList<String> mTitles = new ArrayList<>();
                 ProjectBean projectBean = JSONObject.parseObject(response.body(), ProjectBean.class);
                 if (projectBean != null) {
                     List<ProjectBean.DataBean> data = projectBean.getData();
-                    if (data != null) {
-                        for (int i = 0; i < data.size(); i++) {
-                            mTitles.add(data.get(i).getName());
-                        }
-                    }
-
+                    vpAdapter = new VPadapter(((MainActivity) mContext).getSupportFragmentManager(), data);
+                    viewpager.setAdapter(vpAdapter);
+                    tablayout.setupWithViewPager(viewpager);
                 }
-
-                vpAdapter = new VPadapter(((MainActivity) mContext).getSupportFragmentManager(),mTitles);
-                viewpager.setAdapter(vpAdapter);
-                tablayout.setupWithViewPager(viewpager);
-
 
             }
 
@@ -141,27 +131,27 @@ public class ProjectFragment extends Fragment {
 //    }
 
     private class VPadapter extends FragmentStatePagerAdapter {
-        private ArrayList<String> mTitles  = new ArrayList<>();
-        public VPadapter(FragmentManager fm, ArrayList<String> title) {
+        private List<ProjectBean.DataBean> mDatas = new ArrayList<>();
+
+        public VPadapter(FragmentManager fm, List<ProjectBean.DataBean> datas) {
             super(fm);
-            this.mTitles = title;
+            this.mDatas = datas;
         }
 
         @Override
         public Fragment getItem(int position) {
-            TabFragment instance = TabFragment.getInstance(mTitles.get(position));
-            return instance;
+            return TabFragment.getInstance(mDatas.get(position).getId()+"");
         }
 
         @Override
         public int getCount() {
-            return mTitles.size();
+            return mDatas.size();
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTitles.get(position);
+            return mDatas.get(position).getName();
         }
     }
 
