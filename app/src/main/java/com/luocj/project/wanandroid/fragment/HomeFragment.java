@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.R;
@@ -43,7 +41,7 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private Context mContext;
-    private List<String> images;
+    private List<String> titles;
     private int pageNum = 0;
     private Banner banner;
     private Banner bannerLayout;
@@ -97,9 +95,8 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void setBanner(View view, List<String> data, List<BannerBean.DataBean> dataBeans) {
+    private void setBanner(View view, ArrayList<String> images, List<String> data, List<BannerBean.DataBean> dataBeans) {
         bannerLayout = view.findViewById(R.id.banner);
-        Log.i(TAG, "setBanner: " + images.size());
         banner = bannerLayout.setImages(images).setImageLoader(new GlideImageLoader());
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.DepthPage);
@@ -110,7 +107,9 @@ public class HomeFragment extends Fragment {
         //设置轮播时间
         banner.setDelayTime(3000);
         //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
+//        banner.setIndicatorGravity(BannerConfig.CENTER);
+        banner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
+        banner.setBannerTitles(data);
         banner.start();
 
         banner.setOnBannerListener(new OnBannerListener() {
@@ -144,7 +143,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getBanner() {
-        images = new ArrayList<>();
+        titles = new ArrayList<>();
+        ArrayList<String> images = new ArrayList<>();
         String banner = "http://www.wanandroid.com/banner/json";
         OkGo.<String>get(banner)
                 .tag("banner")
@@ -154,9 +154,10 @@ public class HomeFragment extends Fragment {
                         BannerBean bean = JSONObject.parseObject(response.body(), BannerBean.class);
                         List<BannerBean.DataBean> data = bean.getData();
                         for (int i = 0; i < data.size(); i++) {
+                            titles.add(data.get(i).getTitle());
                             images.add(data.get(i).getImagePath());
                         }
-                        setBanner(headerBanner, images, data);
+                        setBanner(headerBanner,images, titles, data);
                     }
 
 
@@ -224,4 +225,21 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
         OkGo.getInstance().cancelAll();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (banner != null) {
+            banner.startAutoPlay();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (banner != null) {
+            banner.stopAutoPlay();
+        }
+    }
+
 }

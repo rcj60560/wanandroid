@@ -69,26 +69,20 @@ public class NavFragment extends Fragment {
         tilPsd = inflate.findViewById(R.id.til_password);
         password = inflate.findViewById(R.id.tiet_password);
 
-        inflate.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String account = til.getEditText().getText().toString().trim();
-                String password = tilPsd.getEditText().getText().toString().trim();
-                til.setErrorEnabled(false);
-                tilPsd.setErrorEnabled(false);
-                //验证用户名和密码
-                if (validateAccount(account) && validatePassword(password)) {
-                    login(account, password);
-                }
+        inflate.findViewById(R.id.btn_login).setOnClickListener(v -> {
+            String account = til.getEditText().getText().toString().trim();
+            String password = tilPsd.getEditText().getText().toString().trim();
+            til.setErrorEnabled(false);
+            tilPsd.setErrorEnabled(false);
+            //验证用户名和密码
+            if (validateAccount(account) && validatePassword(password)) {
+                login(account, password);
             }
         });
 
-        inflate.findViewById(R.id.btn_regist).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //注册
-                register();
-            }
+        inflate.findViewById(R.id.btn_regist).setOnClickListener(v -> {
+            //注册
+            register();
         });
     }
 

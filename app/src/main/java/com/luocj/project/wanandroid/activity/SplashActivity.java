@@ -22,12 +22,12 @@ public class SplashActivity extends AppCompatActivity {
             int what = msg.what;
             if (what > 0) {
                 what--;
-                time.setText(what + "s");
+                time.setText(what + " s");
                 Message obtain = Message.obtain();
                 obtain.what = what;
                 mHandler.sendMessageDelayed(obtain, 1000);
-            }else {
-                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
         }
@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
     private void initData() {
         Message message = Message.obtain();
         message.what = 3;
-        mHandler.sendMessage(message);
+        mHandler.sendMessageDelayed(message, 1000);
     }
 
     private void initView() {

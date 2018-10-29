@@ -3,8 +3,8 @@
     android:id="@+id/tv_tfl"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:layout_margin="5dp"
+    android:padding="10dp"
+    android:layout_margin="8dp"
     android:background="@drawable/tfl_bg">
 
 </TextView>

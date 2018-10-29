@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:text="时间"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="15dp" />
 
