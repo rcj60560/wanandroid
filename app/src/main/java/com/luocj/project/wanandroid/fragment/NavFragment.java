@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +29,7 @@ import com.luocj.project.wanandroid.activity.RegisterActivity;
 import com.luocj.project.wanandroid.bean.RegisterBean;
 import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.utils.Constants;
+import com.luocj.project.wanandroid.utils.OKGO;
 import com.luocj.project.wanandroid.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -44,6 +50,8 @@ public class NavFragment extends Fragment {
     private TextInputLayout tilPsd;
     private TextInputEditText password;
     private RelativeLayout container;
+    private TabLayout tablayout;
+    private ViewPager viewpager;
 
 
     @Override
@@ -51,39 +59,46 @@ public class NavFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.mContext = getActivity();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate = inflater.inflate(R.layout.fragment_mine, container, false);
+        inflate = inflater.inflate(R.layout.fragment_navi, container, false);
         return inflate;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        container = inflate.findViewById(R.id.rl_mine_container);
-        til = inflate.findViewById(R.id.til_account);
-        username = inflate.findViewById(R.id.et_account);
+        tablayout = inflate.findViewById(R.id.tablayout);
+        viewpager = inflate.findViewById(R.id.viewpager);
 
-        tilPsd = inflate.findViewById(R.id.til_password);
-        password = inflate.findViewById(R.id.tiet_password);
+        VPadapter adapter = new VPadapter(((MainActivity) mContext).getSupportFragmentManager());
+        viewpager.setAdapter(adapter);
+        tablayout.setupWithViewPager(viewpager);
 
-        inflate.findViewById(R.id.btn_login).setOnClickListener(v -> {
-            String account = til.getEditText().getText().toString().trim();
-            String password = tilPsd.getEditText().getText().toString().trim();
-            til.setErrorEnabled(false);
-            tilPsd.setErrorEnabled(false);
-            //验证用户名和密码
-            if (validateAccount(account) && validatePassword(password)) {
-                login(account, password);
-            }
-        });
 
-        inflate.findViewById(R.id.btn_regist).setOnClickListener(v -> {
-            //注册
-            register();
-        });
+//        container = inflate.findViewById(R.id.rl_mine_container);
+//        til = inflate.findViewById(R.id.til_account);
+//        username = inflate.findViewById(R.id.et_account);
+//
+//        tilPsd = inflate.findViewById(R.id.til_password);
+//        password = inflate.findViewById(R.id.tiet_password);
+//
+//        inflate.findViewById(R.id.btn_login).setOnClickListener(v -> {
+//            String account = til.getEditText().getText().toString().trim();
+//            String password = tilPsd.getEditText().getText().toString().trim();
+//            til.setErrorEnabled(false);
+//            tilPsd.setErrorEnabled(false);
+//            //验证用户名和密码
+//            if (validateAccount(account) && validatePassword(password)) {
+//                login(account, password);
+//            }
+//        });
+//
+//        inflate.findViewById(R.id.btn_regist).setOnClickListener(v -> {
+//            //注册
+//            register();
+//        });
     }
 
     private void register() {
@@ -162,6 +177,28 @@ public class NavFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        getData();
+    }
+
+    private void getData() {
+        OKGO.get(Constants.NAVIURL, "navifragment", new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+        });
     }
 
     @Override
@@ -216,4 +253,26 @@ public class NavFragment extends Fragment {
         return true;
     }
 
+    private class VPadapter extends FragmentStatePagerAdapter {
+        public VPadapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            TabFragment instance = TabFragment.getInstance("position :" + position);
+            return instance;
+        }
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "position :" +position;
+        }
+    }
 }
