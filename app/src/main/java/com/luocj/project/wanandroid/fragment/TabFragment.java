@@ -64,9 +64,6 @@ public class TabFragment extends BaseFragment {
     }
 
     private void initChoiceLayout() {
-        TextView textView = parentView.findViewById(R.id.textview);
-        textView.setText(mDatas.getName());
-
         smartrefreshlayout = parentView.findViewById(R.id.smartrefreshlayout);
         recyclerview = parentView.findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
