@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +19,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
 import com.luocj.project.wanandroid.bean.ProjectBean;
+import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.OKGO;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +34,11 @@ import java.util.List;
 public class ProjectFragment extends Fragment {
 
     private static final String TAG = ProjectFragment.class.getSimpleName();
-    private Context mContext;
     private View inflate;
-    private TagFlowLayout tfl;
     private TabLayout tablayout;
     private ViewPager viewpager;
-    private VPadapter vpAdapter;
+    private Context mContext;
+    private VPAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,36 +51,46 @@ public class ProjectFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_project, container, false);
         return inflate;
-    }
 
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        tablayout = inflate.findViewById(R.id.tablayout);
-        viewpager = inflate.findViewById(R.id.viewpager);
-        tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        super.onViewCreated(view, savedInstanceState);
+        initView(inflate);
         initData();
     }
 
     private void initData() {
-        String url = "http://www.wanandroid.com/project/tree/json";
-        OKGO.get(url, "projectfragment", new StringCallback() {
+        OKGO.get(Constants.PROJECT_TREE, "project", new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                ProjectBean projectBean = JSONObject.parseObject(response.body(), ProjectBean.class);
-                if (projectBean != null) {
+                String body = response.body();
+                ProjectBean projectBean = JSONObject.parseObject(body, ProjectBean.class);
+                if (projectBean.getErrorCode() == 0) {
+                    Log.i(TAG, "onSuccess: ");
                     List<ProjectBean.DataBean> data = projectBean.getData();
-                    vpAdapter = new VPadapter(((MainActivity) mContext).getSupportFragmentManager(), data);
-                    viewpager.setAdapter(vpAdapter);
-                    tablayout.setupWithViewPager(viewpager);
-                }
+                    ArrayList<TabFragment> tabFragments = new ArrayList<>();
+                    ArrayList<String> titles = new ArrayList<>();
+                    for (int i = 0; i < data.size(); i++) {
+                        tabFragments.add(new TabFragment(data.get(i)));
+                        titles.add(data.get(i).getName());
+                    }
+                    if (adapter == null) {
+                        adapter = new VPAdapter(getChildFragmentManager(),tabFragments,titles);
+                        viewpager.setAdapter(adapter);
+                        tablayout.setupWithViewPager(viewpager,false);
+                    }
 
+
+                } else {
+                    Log.i(TAG, "onSuccess: " + "failed");
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
             }
 
             @Override
@@ -87,73 +98,48 @@ public class ProjectFragment extends Fragment {
                 super.onError(response);
 
             }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-
-            }
         });
+    }
 
+    private void initView(View inflate) {
+        tablayout = inflate.findViewById(R.id.tablayout);
+        viewpager = inflate.findViewById(R.id.viewpager);
+        tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        ArrayList<TabFragment> tabFragments = new ArrayList<>();
+//        for (int i = 0; i < 6; i++) {
+//            tabFragments.add(new TabFragment(i));
+//        }
+//        VPAdapter adapter = new VPAdapter(((MainActivity) mContext).getSupportFragmentManager(), tabFragments);
+//        viewpager.setAdapter(adapter);
+//        tablayout.setupWithViewPager(viewpager);
 
     }
 
 
-    /**
-     * 设置流式布局
-     *
-     * @param mVals
-     */
+    private class VPAdapter extends FragmentPagerAdapter {
+        ArrayList<TabFragment> mFragments = new ArrayList<>();
+        ArrayList<String> mTitles = new ArrayList<>();
 
-    private void setTabFlowLayout(ArrayList<String> mVals) {
-//        tfl.setAdapter(new TagAdapter<String>(mVals) {
-//            @Override
-//            public View getView(FlowLayout parent, int position, String s) {
-//                if (mVals != null) {
-//                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tfl_project, tfl, false);
-//                    tv.setText(s);
-//                    return tv;
-//                }
-//                return null;
-//            }
-//        });
-    }
-
-//    private void initView(View inflate) {
-//        tfl = inflate.findViewById(R.id.tfl_project);
-//        tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-//            @Override
-//            public boolean onTagClick(View view, int position, FlowLayout parent) {
-//                Log.i(TAG, "onTagClick: " + position);
-//                return false;
-//            }
-//        });
-//    }
-
-    private class VPadapter extends FragmentStatePagerAdapter {
-        private List<ProjectBean.DataBean> mDatas = new ArrayList<>();
-
-        public VPadapter(FragmentManager fm, List<ProjectBean.DataBean> datas) {
-            super(fm);
-            this.mDatas = datas;
+        public VPAdapter(FragmentManager supportFragmentManager, ArrayList<TabFragment> tabFragments,ArrayList<String> data) {
+            super(supportFragmentManager);
+            this.mFragments = tabFragments;
+            this.mTitles = data;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return TabFragment.getInstance(mDatas.get(position).getId()+"");
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return mDatas.size();
+            return mFragments.size();
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return mDatas.get(position).getName();
+            return mTitles.get(position);
         }
     }
-
-
 }

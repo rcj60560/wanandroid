@@ -1,11 +1,9 @@
 package com.luocj.project.wanandroid.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,31 +11,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.luocj.project.wanandroid.R;
-import com.luocj.project.wanandroid.adapter.ProjectAdapter;
+import com.luocj.project.wanandroid.bean.ProjectBean;
 import com.luocj.project.wanandroid.bean.ProjectListBean;
+import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.OKGO;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import java.util.List;
-
+@SuppressLint("ValidFragment")
 public class TabFragment extends BaseFragment {
 
+
     private static final String TAG = TabFragment.class.getSimpleName();
+    private ProjectBean.DataBean mDatas;
+    private TextView content;
+    private View parentView;
+    private SmartRefreshLayout smartrefreshlayout;
+    private RecyclerView recyclerview;
     private Context mContext;
-    private View inflate;
-    private RecyclerView rv;
-    private SmartRefreshLayout smartRefreshLayout;
-    private RecyclerView recyclerView;
-    private ProjectAdapter adapter;
-    private String cId;
+    private TabAdapter adapter;
+
+    public TabFragment(ProjectBean.DataBean dataBean) {
+        this.mDatas = dataBean;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,111 +47,89 @@ public class TabFragment extends BaseFragment {
         this.mContext = getActivity();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate = inflater.inflate(R.layout.fragment_tab_fragment, container, false);
-        return inflate;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (parentView == null) {
+            parentView = inflater.inflate(R.layout.fragment_tab_fragment_new, container, false);
+            //在这里做一些初始化处理
+            initChoiceLayout();
+        } else {
+            ViewGroup viewGroup = (ViewGroup) parentView.getParent();
+            if (viewGroup != null)
+                viewGroup.removeView(parentView);
+        }
+        return parentView;
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initView(inflate);
+    private void initChoiceLayout() {
+        TextView textView = parentView.findViewById(R.id.textview);
+        textView.setText(mDatas.getName());
+
+        smartrefreshlayout = parentView.findViewById(R.id.smartrefreshlayout);
+        recyclerview = parentView.findViewById(R.id.recyclerview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        recyclerview.setLayoutManager(linearLayoutManager);
+
+        adapter = new TabAdapter(R.layout.item_home);
+        recyclerview.setAdapter(adapter);
     }
+
+    @Override
+    protected void initView(View view) {
+//        content = view.findViewById(R.id.tv_tab_content);
+    }
+
+    @Override
+    protected int getLayouId() {
+        return R.layout.fragment_tab_fragment;
+    }
+
 
     @Override
     protected void loadData() {
-        Log.i(TAG, "loadData: " + "加载数据" + cId);
+//        content.setText(mDatas.getName());
+//        Log.i(TAG, "loadData: " );
+
+        getDataList(mDatas.getId());
     }
 
+    private void getDataList(int id) {
 
-    private void initView(View inflate) {
-        smartRefreshLayout = inflate.findViewById(R.id.smartrefreshlayout);
-        recyclerView = inflate.findViewById(R.id.recyclerview_project);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new ProjectAdapter(R.layout.item_home);
-        recyclerView.setAdapter(adapter);
+        String url = "http://www.wanandroid.com/project/list/1/json?cid=" + id;
 
-        smartRefreshLayout.autoRefresh();
-        smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                refresh(refreshLayout, false);
-            }
-
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                refresh(refreshLayout, true);
-            }
-        });
-    }
-
-    private void refresh(RefreshLayout refreshLayout, boolean b) {
-        refreshLayout.getLayout().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (b) {
-                    smartRefreshLayout.setEnableLoadMore(false);
-                    getList(cId);
-                } else {
-
-                }
-            }
-        }, 2000);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            cId = arguments.getString("cId", "");
-//            getList(cId);
-        }
-    }
-
-    private void getList(String cId) {
-        String url = "http://www.wanandroid.com/project/list/1/json?cid=" + cId;
-        OKGO.get(url, "url", new StringCallback() {
+        OKGO.get(url, "123", new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                ProjectListBean projectListBean = JSONObject.parseObject(response.body(), ProjectListBean.class);
+                String body = response.body();
+                ProjectListBean projectListBean = JSONObject.parseObject(body, ProjectListBean.class);
                 if (projectListBean.getErrorCode() == 0) {
-                    List<ProjectListBean.DataBean.DatasBean> datas = projectListBean.getData().getDatas();
-                    adapter.addData(datas);
-                    smartRefreshLayout.finishRefresh();
-                    smartRefreshLayout.setEnableLoadMore(true);
-
+                    Log.i(TAG, "onSuccess: ");
+                    adapter.addData(projectListBean.getData().getDatas());
                 } else {
-                    Toast.makeText(getActivity(), projectListBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onSuccess: failed");
                 }
-
 
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
 
             }
         });
     }
 
-    public static TabFragment getInstance(String msg) {
-        Bundle bundle = new Bundle();
-        bundle.putString("cId", msg);
+    private class TabAdapter extends BaseQuickAdapter<ProjectListBean.DataBean.DatasBean, BaseViewHolder> {
 
-        TabFragment fm = new TabFragment();
-        fm.setArguments(bundle);
-        return fm;
+        public TabAdapter(int layoutResId) {
+            super(layoutResId);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder holder, ProjectListBean.DataBean.DatasBean item) {
+            holder.setText(R.id.tv_item_title, item.getTitle());
+        }
     }
-
 }

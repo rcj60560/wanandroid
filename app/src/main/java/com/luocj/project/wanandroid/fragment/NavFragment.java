@@ -260,8 +260,7 @@ public class NavFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            TabFragment instance = TabFragment.getInstance("position :" + position);
-            return instance;
+            return null;
         }
 
         @Override

@@ -3,23 +3,49 @@ package com.luocj.project.wanandroid.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.luocj.project.wanandroid.R;
+
+
+/**
+ * Created by wangxw on 2017/2/10 0010 15:21.
+ * E-mail:wangxw725@163.com
+ * function:
+ */
 public abstract class BaseFragment extends Fragment {
 
+    private String mTextviewContent;
+//    private MainActivity mMainActivity;
 
     //Fragment的View加载完毕的标记
     private boolean isViewCreated;
     //Fragment对用户可见的标记
     private boolean isUIVisible;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(getLayouId(), container, false);
+        initView(view);
+        return view ;
+    }
+
+    protected abstract void initView(View view);
+
+    protected abstract int getLayouId();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         isViewCreated = true;
         lazyLoad();
     }
+
+    protected abstract void loadData();
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -41,12 +67,10 @@ public abstract class BaseFragment extends Fragment {
             isViewCreated = false;
             isUIVisible = false;
 
-//            printLog(mTextviewContent+"可见,加载数据");
         }
     }
 
 
-    protected abstract void loadData();
 
 
     @Override
@@ -55,15 +79,6 @@ public abstract class BaseFragment extends Fragment {
         //页面销毁,恢复标记
         isViewCreated = false;
         isUIVisible = false;
-
-//        printLog(mTextviewContent +"销毁了");
     }
-
-//    private void printLog(String logStr) {
-//        TextView logView = new TextView(getContext());
-//        logView.setText(logStr);
-//        mMainActivity.addLog(logView);
-//    }
-
 
 }
