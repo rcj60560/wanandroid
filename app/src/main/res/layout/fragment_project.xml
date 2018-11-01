@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvtest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="sdf" />
-
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"

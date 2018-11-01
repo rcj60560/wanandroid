@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.R;
@@ -72,6 +73,7 @@ public class HomeFragment extends Fragment {
     private void initView(View inflate) {
         ClassicsHeader header = inflate.findViewById(R.id.header_home);
         RecyclerView recyclerviewHome = inflate.findViewById(R.id.recyclerview_home);
+        LinearLayout rootview = inflate.findViewById(R.id.rootview);
         smartFreshLayout = inflate.findViewById(R.id.smartrefreshlayout);
         smartFreshLayout.autoRefresh();
         smartFreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -92,6 +94,7 @@ public class HomeFragment extends Fragment {
         headerBanner = LayoutInflater.from(mContext).inflate(R.layout.header_banner, smartFreshLayout, false);
         homeAdapter.addHeaderView(headerBanner);
         recyclerviewHome.setAdapter(homeAdapter);
+        homeAdapter.setEmptyView(R.layout.empty_view,rootview);
 
     }
 

@@ -58,6 +58,7 @@ public class TiXiFragment extends Fragment {
     }
 
     private void initView(View inflate) {
+        LinearLayout rootview = inflate.findViewById(R.id.rootview);
         smartrefreshlayout = inflate.findViewById(R.id.smartrefreshlayout);
         recyclerview = inflate.findViewById(R.id.recyclerview_tixi);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -74,6 +75,8 @@ public class TiXiFragment extends Fragment {
                 refresh(refreshLayout);
             }
         });
+
+        adapter.setEmptyView(R.layout.empty_view,rootview);
     }
 
     private void refresh(RefreshLayout refreshLayout) {

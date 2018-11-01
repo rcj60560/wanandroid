@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -36,6 +37,7 @@ public class TabFragment extends BaseFragment {
     private RecyclerView recyclerview;
     private Context mContext;
     private TabAdapter adapter;
+    private LinearLayout vierGroup;
 
     public TabFragment(ProjectBean.DataBean dataBean) {
         this.mDatas = dataBean;
@@ -64,6 +66,7 @@ public class TabFragment extends BaseFragment {
     }
 
     private void initChoiceLayout() {
+        vierGroup = parentView.findViewById(R.id.rootview);
         smartrefreshlayout = parentView.findViewById(R.id.smartrefreshlayout);
         recyclerview = parentView.findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -71,6 +74,7 @@ public class TabFragment extends BaseFragment {
 
         adapter = new TabAdapter(R.layout.item_home);
         recyclerview.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.empty_view,vierGroup);
     }
 
     @Override
