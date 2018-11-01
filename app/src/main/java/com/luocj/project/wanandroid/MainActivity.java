@@ -1,8 +1,11 @@
 package com.luocj.project.wanandroid;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,14 +15,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.luocj.project.wanandroid.activity.BaseActivity;
+import com.luocj.project.wanandroid.bean.GithubBean;
+import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.fragment.HomeFragment;
 import com.luocj.project.wanandroid.fragment.ProjectFragment;
 import com.luocj.project.wanandroid.fragment.NavFragment;
 import com.luocj.project.wanandroid.fragment.TiXiFragment;
 import com.luocj.project.wanandroid.utils.Constants;
+import com.luocj.project.wanandroid.utils.OKGO;
 import com.luocj.project.wanandroid.utils.SPUtils;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 
@@ -39,6 +51,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int THREE = 3;
     private static final int FOUTH = 4;
     private int currentTab = -1;
+    private ImageView avater;
+    private TextView name;
+    private TextView email;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +62,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         SPUtils.putBoolean(MainActivity.this, Constants.LOGIN, false);
         initView();
 
+        initData();
+
+    }
+
+    private void initData() {
+        String url = "https://api.github.com/users/rcj60560";
+        OKGO.get(url, "mygithub", new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                String body = response.body();
+                if (body.contains("message")) {
+                    Toast.makeText(MainActivity.this, "出错了！", Toast.LENGTH_SHORT).show();
+                } else {
+                    GithubBean githubBean = JSONObject.parseObject(body, GithubBean.class);
+                    UserBean userBean = new UserBean();
+                    userBean.setGithutName(githubBean.getName());
+                    userBean.setEmail("luocj515@163.com");
+                    userBean.setId(githubBean.getId());
+                    userBean.setAvater(githubBean.getAvatar_url());
+                    SPUtils.putString(MainActivity.this, userBean.toString(), "");
+
+//                    Glide.with(MainActivity.this)
+//                            .load(githubBean.getAvatar_url())
+//                            .into(avater);
+//
+//                    name.setText(githubBean.getName());
+//                    email.setText(githubBean.getEmail());
+                }
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+
+            }
+        });
     }
 
     private void initView() {
@@ -79,8 +130,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                avater = findViewById(R.id.iv_avater);
+                name = findViewById(R.id.tv_name);
+                email = findViewById(R.id.tv_email);
+
+                Glide.with(MainActivity.this)
+                        .load("https://avatars3.githubusercontent.com/u/21009156?v=4")
+                        .into(avater);
+
+                name.setText("luocj515");
+                email.setText("luocj515@163.com");
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+//
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
     @Override

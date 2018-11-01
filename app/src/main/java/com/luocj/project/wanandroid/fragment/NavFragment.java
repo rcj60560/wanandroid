@@ -69,13 +69,6 @@ public class NavFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tablayout = inflate.findViewById(R.id.tablayout);
-        viewpager = inflate.findViewById(R.id.viewpager);
-
-        VPadapter adapter = new VPadapter(((MainActivity) mContext).getSupportFragmentManager());
-        viewpager.setAdapter(adapter);
-        tablayout.setupWithViewPager(viewpager);
-
 
 //        container = inflate.findViewById(R.id.rl_mine_container);
 //        til = inflate.findViewById(R.id.til_account);

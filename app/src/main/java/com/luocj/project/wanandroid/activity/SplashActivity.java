@@ -2,6 +2,8 @@ package com.luocj.project.wanandroid.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
 
@@ -51,8 +55,17 @@ public class SplashActivity extends AppCompatActivity {
     private void initData() {
         String url = "https://camo.githubusercontent.com/8524a3d101484a10c56624bb70ef2a92bf5843ab/6874747073" +
                 "3a2f2f646979636f64652e62302e7570616979756e2e636f6d2f757365722f6176617461722f323436382e6a7067";
+
+
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(new ColorDrawable(Color.BLACK))
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_launcher);
+
         Glide.with(SplashActivity.this)
                 .load(url)
+                .apply(requestOptions)
                 .into(imageview);
 
         Message message = Message.obtain();

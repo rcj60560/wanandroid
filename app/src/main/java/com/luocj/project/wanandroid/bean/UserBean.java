@@ -15,9 +15,42 @@ public class UserBean implements Serializable {
     private String username;
     private String password;
     private int id;
+    private String avater;
+
+    @Override
+    public String toString() {
+        return "UserBean{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", id=" + id +
+                ", avater='" + avater + '\'' +
+                ", email='" + email + '\'' +
+                ", token='" + token + '\'' +
+                ", type='" + type + '\'' +
+                ", githutName='" + githutName + '\'' +
+                '}';
+    }
+
+    public String getAvater() {
+        return avater;
+    }
+
+    public void setAvater(String avater) {
+        this.avater = avater;
+    }
+
     private String email;
     private String token;
     private String type;
+    private String githutName;
+
+    public String getGithutName() {
+        return githutName;
+    }
+
+    public void setGithutName(String githutName) {
+        this.githutName = githutName;
+    }
 
     public String getUsername() {
         return username;
@@ -67,15 +100,4 @@ public class UserBean implements Serializable {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", token='" + token + '\'' +
-                ", type='" + type + '\'' +
-                '}';
-    }
 }

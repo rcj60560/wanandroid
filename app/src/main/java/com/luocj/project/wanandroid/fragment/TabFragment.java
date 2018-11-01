@@ -19,7 +19,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.luocj.project.wanandroid.R;
 import com.luocj.project.wanandroid.bean.ProjectBean;
 import com.luocj.project.wanandroid.bean.ProjectListBean;
-import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.OKGO;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -74,7 +73,7 @@ public class TabFragment extends BaseFragment {
 
         adapter = new TabAdapter(R.layout.item_home);
         recyclerview.setAdapter(adapter);
-        adapter.setEmptyView(R.layout.empty_view,vierGroup);
+        adapter.setEmptyView(R.layout.empty_view, vierGroup);
     }
 
     @Override
@@ -131,9 +130,9 @@ public class TabFragment extends BaseFragment {
         @Override
         protected void convert(BaseViewHolder holder, ProjectListBean.DataBean.DatasBean item) {
             holder.setText(R.id.tv_item_title, item.getTitle());
-            holder.setText(R.id.tv_itemt_desc,item.getDesc());
-            holder.setText(R.id.tv_item_author,item.getAuthor());
-            holder.setText(R.id.tv_item_time_,item.getNiceDate());
+            holder.setText(R.id.tv_itemt_desc, item.getDesc());
+            holder.setText(R.id.tv_item_author_name, item.getAuthor());
+            holder.setText(R.id.tv_item_time_, item.getNiceDate());
         }
     }
 }

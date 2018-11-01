@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_rootview"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_rootview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
@@ -45,7 +45,7 @@
                 android:id="@+id/tv_item_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="author:" />
+                android:text="作者:" />
 
             <TextView
                 android:id="@+id/tv_item_author_name"
@@ -67,7 +67,7 @@
                 android:id="@+id/tv_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="time:" />
+                android:text="时间:" />
 
             <TextView
                 android:id="@+id/tv_item_time_"
@@ -89,7 +89,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="6dp"
         android:textColor="#44ff0000"
-        tools:text="name" />
+        tools:text=" " />
 
     <View
         android:layout_width="match_parent"
