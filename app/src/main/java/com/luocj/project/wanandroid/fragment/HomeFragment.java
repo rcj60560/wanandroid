@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
     private View headerBanner;
     private SmartRefreshLayout smartFreshLayout;
     private HomeAdapter homeAdapter;
+    private LinearLayout rootview;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment {
     private void initView(View inflate) {
         ClassicsHeader header = inflate.findViewById(R.id.header_home);
         RecyclerView recyclerviewHome = inflate.findViewById(R.id.recyclerview_home);
-        LinearLayout rootview = inflate.findViewById(R.id.rootview);
+        rootview = inflate.findViewById(R.id.rootview);
         smartFreshLayout = inflate.findViewById(R.id.smartrefreshlayout);
         smartFreshLayout.autoRefresh();
         smartFreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -94,7 +95,8 @@ public class HomeFragment extends Fragment {
         headerBanner = LayoutInflater.from(mContext).inflate(R.layout.header_banner, smartFreshLayout, false);
         homeAdapter.addHeaderView(headerBanner);
         recyclerviewHome.setAdapter(homeAdapter);
-        homeAdapter.setEmptyView(R.layout.empty_view,rootview);
+
+        homeAdapter.setEmptyView(R.layout.empty_view, rootview);
 
     }
 
@@ -160,7 +162,7 @@ public class HomeFragment extends Fragment {
                             titles.add(data.get(i).getTitle());
                             images.add(data.get(i).getImagePath());
                         }
-                        setBanner(headerBanner,images, titles, data);
+                        setBanner(headerBanner, images, titles, data);
                     }
 
 

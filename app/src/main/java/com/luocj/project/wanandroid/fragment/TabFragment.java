@@ -131,6 +131,9 @@ public class TabFragment extends BaseFragment {
         @Override
         protected void convert(BaseViewHolder holder, ProjectListBean.DataBean.DatasBean item) {
             holder.setText(R.id.tv_item_title, item.getTitle());
+            holder.setText(R.id.tv_itemt_desc,item.getDesc());
+            holder.setText(R.id.tv_item_author,item.getAuthor());
+            holder.setText(R.id.tv_item_time_,item.getNiceDate());
         }
     }
 }

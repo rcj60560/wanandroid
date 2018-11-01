@@ -7,10 +7,9 @@
     tools:context=".activity.SplashActivity">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -21,5 +20,15 @@
         android:text=""
         android:textColor="@color/black"
         android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
+        android:text="wanandroid"
+        android:textSize="18dp" />
+
 
 </RelativeLayout>
