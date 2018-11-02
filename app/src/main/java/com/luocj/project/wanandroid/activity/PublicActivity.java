@@ -84,7 +84,7 @@ public class PublicActivity extends AppCompatActivity {
                         adapter = new TitleAdapter(R.layout.item_title, data);
                         rvTitle.setAdapter(adapter);
                         id = data.get(0).getId();
-                        getContent(id,true);
+                        getContent(id, true);
                     }
                 } else {
                     Toast.makeText(mContext, publicBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
@@ -248,14 +248,17 @@ public class PublicActivity extends AppCompatActivity {
             });
 
             ImageView like = holder.getView(R.id.iv_like);
-            if (!SPUtils.getBoolean(mContext, Constants.LOGIN, false)) {
+
+            boolean isLogin = SPUtils.getInstance().getBoolean(Constants.LOGIN, false);
+
+            if (!isLogin) {
                 like.setSelected(false);
             } else {
                 like.setSelected(item.isCollect());
             }
 
             like.setOnClickListener(v -> {
-                if (!SPUtils.getBoolean(mContext, Constants.LOGIN, false)) {
+                if (!isLogin) {
                     Toast.makeText(mContext, "请先登录！", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!item.isCollect()) {

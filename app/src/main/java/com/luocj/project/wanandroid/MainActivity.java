@@ -1,11 +1,11 @@
 package com.luocj.project.wanandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,22 +16,16 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.luocj.project.wanandroid.activity.BaseActivity;
-import com.luocj.project.wanandroid.bean.GithubBean;
-import com.luocj.project.wanandroid.bean.UserBean;
+import com.luocj.project.wanandroid.activity.SettingActivity;
 import com.luocj.project.wanandroid.fragment.HomeFragment;
 import com.luocj.project.wanandroid.fragment.ProjectFragment;
 import com.luocj.project.wanandroid.fragment.NavFragment;
 import com.luocj.project.wanandroid.fragment.TiXiFragment;
 import com.luocj.project.wanandroid.utils.Constants;
-import com.luocj.project.wanandroid.utils.OKGO;
 import com.luocj.project.wanandroid.utils.SPUtils;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 
@@ -59,7 +53,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SPUtils.putBoolean(MainActivity.this, Constants.LOGIN, false);
+//        SPUtils.putBoolean(MainActivity.this, Constants.LOGIN, false);
         initView();
 
         initData();
@@ -68,36 +62,36 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void initData() {
         String url = "https://api.github.com/users/rcj60560";
-        OKGO.get(url, "mygithub", new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                String body = response.body();
-                if (body.contains("message")) {
-                    Toast.makeText(MainActivity.this, "出错了！", Toast.LENGTH_SHORT).show();
-                } else {
-                    GithubBean githubBean = JSONObject.parseObject(body, GithubBean.class);
-                    UserBean userBean = new UserBean();
-                    userBean.setGithutName(githubBean.getName());
-                    userBean.setEmail("luocj515@163.com");
-                    userBean.setId(githubBean.getId());
-                    userBean.setAvater(githubBean.getAvatar_url());
-                    SPUtils.putString(MainActivity.this, userBean.toString(), "");
-
-//                    Glide.with(MainActivity.this)
-//                            .load(githubBean.getAvatar_url())
-//                            .into(avater);
+//        OKGO.get(url, "mygithub", new StringCallback() {
+//            @Override
+//            public void onSuccess(Response<String> response) {
+//                String body = response.body();
+//                if (body.contains("message")) {
+//                    Toast.makeText(MainActivity.this, "出错了！", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    GithubBean githubBean = JSONObject.parseObject(body, GithubBean.class);
+//                    UserBean userBean = new UserBean();
+//                    userBean.setGithutName(githubBean.getName());
+//                    userBean.setEmail("luocj515@163.com");
+//                    userBean.setId(githubBean.getId());
+//                    userBean.setAvater(githubBean.getAvatar_url());
+//                    SPUtils.putString(MainActivity.this, userBean.toString(), "");
 //
-//                    name.setText(githubBean.getName());
-//                    email.setText(githubBean.getEmail());
-                }
-            }
-
-            @Override
-            public void onError(Response<String> response) {
-                super.onError(response);
-
-            }
-        });
+////                    Glide.with(MainActivity.this)
+////                            .load(githubBean.getAvatar_url())
+////                            .into(avater);
+////
+////                    name.setText(githubBean.getName());
+////                    email.setText(githubBean.getEmail());
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Response<String> response) {
+//                super.onError(response);
+//
+//            }
+//        });
     }
 
     private void initView() {
@@ -105,7 +99,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         home = findViewById(R.id.iv_home);
         tixi = findViewById(R.id.iv_tixi);
         hot = findViewById(R.id.iv_hot);
-        mine = findViewById(R.id.iv_mine);
+        mine = findViewById(R.id.iv_project);
         home.setOnClickListener(this);
         tixi.setOnClickListener(this);
         hot.setOnClickListener(this);
@@ -166,8 +160,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-
     }
 
     @Override
@@ -213,9 +205,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_collect) {
 
         } else if (id == R.id.nav_setting) {
-
+            startActivity(new Intent(MainActivity.this, SettingActivity.class));
         } else if (id == R.id.nav_loginout) {
+            SPUtils.getInstance().remove(Constants.LOGIN);
 
+            Log.i(TAG, "onNavigationItemSelected: " + SPUtils.getInstance().getString(Constants.LOGIN,"default"));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -235,12 +229,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.iv_hot:
                 changeTab(TWO);
                 break;
-            case R.id.iv_mine:
-                if (!SPUtils.getBoolean(MainActivity.this, Constants.LOGIN, false)) {
-                    changeTab(THREE);
-                } else {
-                    changeTab(FOUTH);
-                }
+            case R.id.iv_project:
+//                if (!SPUtils.getBoolean(MainActivity.this, Constants.LOGIN, false)) {
+//                    changeTab(THREE);
+//                } else {
+//                    changeTab(FOUTH);
+//                }
+                changeTab(THREE);
 
                 break;
 

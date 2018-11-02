@@ -1,7 +1,11 @@
 package com.luocj.project.wanandroid.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -9,8 +13,12 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.luocj.project.wanandroid.R;
+import com.luocj.project.wanandroid.activity.LoginActivity;
 import com.luocj.project.wanandroid.activity.WebViewActivity;
 import com.luocj.project.wanandroid.bean.HomeDetailBean;
+import com.luocj.project.wanandroid.utils.Constants;
+import com.luocj.project.wanandroid.utils.LoginUtils;
+import com.luocj.project.wanandroid.utils.SPUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,9 +27,11 @@ import java.util.Locale;
 
 public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasBean, BaseViewHolder> {
 
-    public HomeAdapter(int layoutResId, @Nullable List<HomeDetailBean.DataBean.DatasBean> data) {
-        super(layoutResId, data);
+    private Context context;
 
+    public HomeAdapter(Context activity, int layoutResId, @Nullable List<HomeDetailBean.DataBean.DatasBean> data) {
+        super(layoutResId, data);
+        this.context = activity;
     }
 
     @Override
@@ -40,6 +50,32 @@ public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasB
                 mContext.startActivity(intent);
             }
         });
+
+        holder.getView(R.id.iv_like).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                String result = (String) SPUtils.get(mContext, Constants.LOGIN, "");
+//                Log.i(TAG, "onClick: " + result);
+//                if (TextUtils.isEmpty(string)) {
+//                    Toast.makeText(mContext, "登录了", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+//                    Toast.makeText(mContext, "未登录 去登录", Toast.LENGTH_SHORT).show();
+//                }
+
+                String string = SPUtils.getInstance().getString(Constants.LOGIN, "");
+                if (TextUtils.isEmpty(string)) {
+                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                    Toast.makeText(mContext, "未登录 去登录", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "onClick: " + "dianzan");
+                    Log.i(TAG, "onClick: " + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
+
+                }
+
+            }
+        });
+
     }
 
     public static String ms2Date(long _ms) {

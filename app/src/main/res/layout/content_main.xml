@@ -100,7 +100,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/iv_mine"
+                android:id="@+id/iv_project"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_mine"
+                android:layout_below="@+id/iv_project"
                 android:layout_centerHorizontal="true"
                 android:text="项目" />
 

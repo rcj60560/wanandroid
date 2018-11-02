@@ -7,6 +7,25 @@
     android:orientation="vertical"
     tools:context=".activity.SettingActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="设置"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:padding="10dp"
+            android:src="@drawable/back" />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

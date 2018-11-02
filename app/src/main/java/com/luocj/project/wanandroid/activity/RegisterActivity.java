@@ -92,7 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
                             userBean.setToken(registerBean.getData().getToken());
                             userBean.setEmail(registerBean.getData().getEmail());
                             userBean.setId(registerBean.getData().getId());
-                            SPUtils.putString(RegisterActivity.this, Constants.USERINFO, userBean.toString());
+                            SPUtils.getInstance().put(Constants.USERINFO, userBean.toString());
+//                            SPUtils.putString(RegisterActivity.this, Constants.USERINFO, userBean.toString());
 
                             Intent intent = new Intent();
                             intent.putExtra(Constants.USERINFO,userBean);

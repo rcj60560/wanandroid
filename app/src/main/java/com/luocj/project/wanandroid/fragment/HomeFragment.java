@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerviewHome.setLayoutManager(linearLayoutManager);
-        homeAdapter = new HomeAdapter(R.layout.item_home, null);
+        homeAdapter = new HomeAdapter(getActivity(),R.layout.item_home, null);
         headerBanner = LayoutInflater.from(mContext).inflate(R.layout.header_banner, smartFreshLayout, false);
         homeAdapter.addHeaderView(headerBanner);
         recyclerviewHome.setAdapter(homeAdapter);

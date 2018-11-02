@@ -31,7 +31,8 @@
         <activity android:name=".activity.TagDetailActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.LoginActivity"></activity>
     </application>
 
 </manifest>

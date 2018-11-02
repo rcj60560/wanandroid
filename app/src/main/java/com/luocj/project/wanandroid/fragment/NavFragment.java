@@ -136,7 +136,8 @@ public class NavFragment extends Fragment {
                             showToast("登录成功！");
                             Log.i(TAG, "onSuccess: userName :----------->" + userBean.getData().getUsername());
 //                            getCollectList();
-                            SPUtils.putBoolean(getActivity(), Constants.LOGIN, true);
+                            SPUtils.getInstance().put(Constants.LOGIN,true);
+//                            SPUtils.putBoolean(getActivity(), Constants.LOGIN, true);
                             switchFragment();
                         } else {
                             showToast(userBean.getErrorMsg());
