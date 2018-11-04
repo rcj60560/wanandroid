@@ -1,4 +1,9 @@
 # wanandroid
+
+[![Apache License 2.0][1]][2]
+[![fir.im][3]][4] 
+[![Release Version][5]][6]
+
 一款练手项目  wanandroid  api全部来自www.wanandroid.com开放api  界面比较难看，项目功能还在完善中...
 ===
 简介
