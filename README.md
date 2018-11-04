@@ -10,6 +10,11 @@ wanandroid项目基于MVC+Glide+OKGO+SmartRefreshLayout+BaseRecyclerViewAdapterH
 
 Preview
 <br>
+![image](https://github.com/rcj60560/wanandroid/blob/master/screenshoots/00.gif)
+![image](https://github.com/rcj60560/wanandroid/blob/master/screenshoots/01.gif)
+![image](https://github.com/rcj60560/wanandroid/blob/master/screenshoots/02.gif)
+![image](https://github.com/rcj60560/wanandroid/blob/master/screenshoots/03.gif)
+![image](https://github.com/rcj60560/wanandroid/blob/master/screenshoots/04.gif)
 
 Version
 ---
@@ -19,6 +24,7 @@ v.1.0.0<br>
 DownloadAPK
 ---
 ![image](https://github.com/rcj60560/wanandroid/raw/master/screenshoots/download_apk.png)
+
 
 ### 开源库：
 - [**OkGo**](https://github.com/jeasonlzy/okhttp-OkGo)
