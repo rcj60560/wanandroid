@@ -24,4 +24,4 @@ Thanks
 ---
 API:鸿洋大大提供的 WanAndroid API<br>
 Network:OKGO<br>
-UI:SmartRefreshLayout+BaseRecyclerViewAdapterHelper<br>
+UI:SmartRefreshLayout+BaseRecyclerViewAdapterHelper+Banner<br>
