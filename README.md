@@ -1,9 +1,5 @@
 # wanandroid
 
-[![Apache License 2.0][1]][2]
-[![fir.im][3]][4] 
-[![Release Version][5]][6]
-
 一款练手项目  wanandroid  api全部来自www.wanandroid.com开放api  界面比较难看，项目功能还在完善中...
 ===
 简介
@@ -45,11 +41,32 @@ DownloadAPK
 - [**BaseRecyclerViewAdapterHelper**](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 
 
-
-
-
-
 ### 致谢
 
 - Api 数据来源：鸿洋大神的   [WanAndroid Api](http://www.wanandroid.com/)
 - 感谢开源，为开发者提供如此好的代码
+
+
+## License
+```
+Copyright (C) 2018
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+[1]:https://img.shields.io/:license-apache-blue.svg
+[2]:https://www.apache.org/licenses/LICENSE-2.0.html
+[3]:https://img.shields.io/badge/download-fir.im-blue.svg
+[4]:https://fir.im/rqbw
+[5]:https://img.shields.io/badge/API-16%2B-red.svg?style=flat
+[6]:https://android-arsenal.com/api?level=16
