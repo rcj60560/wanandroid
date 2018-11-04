@@ -20,8 +20,21 @@ DownloadAPK
 ---
 ![image](https://github.com/rcj60560/wanandroid/raw/master/screenshoots/download_apk.png)
 
-Thanks
----
-API:鸿洋大大提供的 WanAndroid API<br>
-Network:OKGO<br>
-UI:SmartRefreshLayout+BaseRecyclerViewAdapterHelper+Banner<br>
+##### 开源库：
+- [**OkGo**](https://github.com/jeasonlzy/okhttp-OkGo)
+
+- [**SmartRefreshLayout**](https://github.com/scwang90/SmartRefreshLayout)
+
+- [**fastjson**](https://github.com/alibaba/fastjson)
+
+- [**AgentWeb**](https://github.com/Justson/AgentWeb)
+
+- [**BaseRecyclerViewAdapterHelper**](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+
+
+
+
+### 致谢
+
+- Api 数据来源：鸿洋大神的   [WanAndroid Api](http://www.wanandroid.com/)
+- 感谢开源，为开发者提供如此好的代码
