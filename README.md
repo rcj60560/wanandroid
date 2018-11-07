@@ -34,13 +34,14 @@ DownloadAPK
 
 - [**SmartRefreshLayout**](https://github.com/scwang90/SmartRefreshLayout)
 
+- [**BaseRecyclerViewAdapterHelper**](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+
 - [**glide**](https://github.com/bumptech/glide)
 
 - [**fastjson**](https://github.com/alibaba/fastjson)
 
 - [**AgentWeb**](https://github.com/Justson/AgentWeb)
 
-- [**BaseRecyclerViewAdapterHelper**](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 
 
 
