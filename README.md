@@ -30,6 +30,8 @@ DownloadAPK
 ### 开源库：
 - [**OkGo**](https://github.com/jeasonlzy/okhttp-OkGo)
 
+- [**banner**](https://github.com/youth5201314/banner)
+
 - [**SmartRefreshLayout**](https://github.com/scwang90/SmartRefreshLayout)
 
 - [**glide**](https://github.com/bumptech/glide)
@@ -39,6 +41,7 @@ DownloadAPK
 - [**AgentWeb**](https://github.com/Justson/AgentWeb)
 
 - [**BaseRecyclerViewAdapterHelper**](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+
 
 
 ### 致谢
