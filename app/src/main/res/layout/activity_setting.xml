@@ -20,11 +20,17 @@
             android:textSize="18dp" />
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:padding="10dp"
             android:src="@drawable/back" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray" />
 
     <TextView
         android:layout_width="match_parent"

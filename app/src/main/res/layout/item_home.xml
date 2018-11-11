@@ -29,7 +29,7 @@
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/tv_itemt_desc"
         android:orientation="horizontal">
 
@@ -37,7 +37,7 @@
             android:id="@+id/iv_like"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:background="@drawable/select_like_or_not" />
 

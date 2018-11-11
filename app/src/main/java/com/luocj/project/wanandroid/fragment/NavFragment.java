@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +25,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
 import com.luocj.project.wanandroid.activity.RegisterActivity;
+import com.luocj.project.wanandroid.adapter.LeftAdapter;
+import com.luocj.project.wanandroid.adapter.RightAdapter;
+import com.luocj.project.wanandroid.bean.NavigationBean;
 import com.luocj.project.wanandroid.bean.RegisterBean;
 import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.utils.Constants;
@@ -34,6 +40,9 @@ import com.luocj.project.wanandroid.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 导航
@@ -45,13 +54,9 @@ public class NavFragment extends Fragment {
     private static final int REGISTER = 1001;
     private Context mContext;
     private View inflate;
-    private EditText username;
-    private TextInputLayout til;
-    private TextInputLayout tilPsd;
-    private TextInputEditText password;
-    private RelativeLayout container;
-    private TabLayout tablayout;
-    private ViewPager viewpager;
+    private RecyclerView rv1;
+    private RecyclerView rv2;
+    private LeftAdapter leftAdapter;
 
 
     @Override
@@ -59,6 +64,7 @@ public class NavFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.mContext = getActivity();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +75,13 @@ public class NavFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        rv1 = inflate.findViewById(R.id.recyclervie_left);
+        rv1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+
+        rv2 = inflate.findViewById(R.id.recyclervie_right);
+        rv2.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
 //        container = inflate.findViewById(R.id.rl_mine_container);
 //        til = inflate.findViewById(R.id.til_account);
@@ -92,24 +105,6 @@ public class NavFragment extends Fragment {
 //            //注册
 //            register();
 //        });
-    }
-
-    private void register() {
-        Intent intent = new Intent(mContext, RegisterActivity.class);
-        startActivityForResult(intent, NavFragment.REGISTER);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == NavFragment.REGISTER) {
-            if (resultCode == 101) {
-                UserBean userinfo = (UserBean) data.getSerializableExtra(Constants.USERINFO);
-                Log.i(TAG, "onActivityResult: " + userinfo.toString());
-            } else {
-
-            }
-        }
     }
 
     private void loginOut() {
@@ -136,7 +131,7 @@ public class NavFragment extends Fragment {
                             showToast("登录成功！");
                             Log.i(TAG, "onSuccess: userName :----------->" + userBean.getData().getUsername());
 //                            getCollectList();
-                            SPUtils.getInstance().put(Constants.LOGIN,true);
+                            SPUtils.getInstance().put(Constants.LOGIN, true);
 //                            SPUtils.putBoolean(getActivity(), Constants.LOGIN, true);
                             switchFragment();
                         } else {
@@ -171,7 +166,6 @@ public class NavFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         getData();
     }
 
@@ -179,7 +173,46 @@ public class NavFragment extends Fragment {
         OKGO.get(Constants.NAVIURL, "navifragment", new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
+                NavigationBean resultBean = JSONObject.parseObject(response.body(), NavigationBean.class);
+                int errorCode = resultBean.getErrorCode();
+                if (errorCode == 0) {
 
+                    List<NavigationBean.DataBean> data = resultBean.getData();
+                    ArrayList<Boolean> booleans = new ArrayList<>();
+                    booleans.add(true);
+                    for (int i = 1; i < data.size(); i++) {
+                        booleans.add(false);
+                    }
+                    leftAdapter = new LeftAdapter(R.layout.item_text);
+                    rv1.setAdapter(leftAdapter);
+                    leftAdapter.setNewData(data);
+                    leftAdapter.setSelect(booleans);
+                    leftAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            setSelected(adapter, position);
+                            RightAdapter rightAdapter = new RightAdapter(R.layout.item_tixi);
+                            rv2.setAdapter(rightAdapter);
+                            if (data!=null){
+                                rightAdapter.setNewData(data);
+                            }
+                        }
+                    });
+
+                } else {
+                    showToast(resultBean.getErrorMsg());
+                }
+            }
+
+            private void setSelected(BaseQuickAdapter adapter, int position) {
+                for (int i = 0; i < adapter.getData().size(); i++) {
+                    if (i==position){
+                        leftAdapter.getSelected().set(i,true);
+                    }else {
+                        leftAdapter.getSelected().set(i,false);
+                    }
+                    leftAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -213,40 +246,6 @@ public class NavFragment extends Fragment {
         textInputLayout.getEditText().requestFocus();
     }
 
-    /**
-     * 验证用户名
-     *
-     * @param account
-     * @return
-     */
-    private boolean validateAccount(String account) {
-        if (TextUtils.isEmpty(account)) {
-            showError(til, "用户名不能为空");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 验证密码
-     *
-     * @param password
-     * @return
-     */
-    private boolean validatePassword(String password) {
-        if (TextUtils.isEmpty(password)) {
-            showError(tilPsd, "密码不能为空");
-            return false;
-        }
-
-        if (password.length() < 6 || password.length() > 18) {
-            showError(tilPsd, "密码长度为6-18位");
-            return false;
-        }
-
-        return true;
-    }
-
     private class VPadapter extends FragmentStatePagerAdapter {
         public VPadapter(FragmentManager fm) {
             super(fm);
@@ -265,7 +264,7 @@ public class NavFragment extends Fragment {
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return "position :" +position;
+            return "position :" + position;
         }
     }
 }

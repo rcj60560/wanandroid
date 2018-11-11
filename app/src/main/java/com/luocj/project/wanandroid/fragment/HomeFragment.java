@@ -121,9 +121,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void OnBannerClick(int position) {
                 switch (position) {
-                    case 0:
-                        startActivity(new Intent(mContext, PublicActivity.class));
-                        break;
+//                    case 0:
+//                        startActivity(new Intent(mContext, PublicActivity.class));
+//                        break;
                     default:
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra("link", dataBeans.get(position).getUrl());
