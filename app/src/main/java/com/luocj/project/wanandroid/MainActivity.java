@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,13 +18,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.luocj.project.wanandroid.activity.BaseActivity;
+import com.luocj.project.wanandroid.activity.CollectionActivity;
 import com.luocj.project.wanandroid.activity.SettingActivity;
 import com.luocj.project.wanandroid.fragment.HomeFragment;
 import com.luocj.project.wanandroid.fragment.ProjectFragment;
 import com.luocj.project.wanandroid.fragment.NavFragment;
 import com.luocj.project.wanandroid.fragment.TiXiFragment;
-import com.luocj.project.wanandroid.utils.Constants;
-import com.luocj.project.wanandroid.utils.SPUtils;
+import com.luocj.project.wanandroid.utils.DialogUtils;
+import com.luocj.project.wanandroid.widget.dialog.BaseNiceDialog;
+import com.luocj.project.wanandroid.widget.dialog.ViewConvertListener;
+import com.luocj.project.wanandroid.widget.dialog.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         home.setSelected(true);
         ft.commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -203,17 +205,36 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.nav_icon) {
             // Handle the camera action
         } else if (id == R.id.nav_collect) {
-
+            //我的收藏
+            startActivity(new Intent(MainActivity.this, CollectionActivity.class));
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(MainActivity.this, SettingActivity.class));
         } else if (id == R.id.nav_loginout) {
-            SPUtils.getInstance().remove(Constants.LOGIN);
-            Log.i(TAG, "onNavigationItemSelected: " + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
+            DialogUtils.showDialog(R.layout.dialog_loginout, 300, listener, getSupportFragmentManager());
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private ViewConvertListener listener = new ViewConvertListener() {
+        @Override
+        protected void convertView(ViewHolder holder, BaseNiceDialog dialog) {
+            TextView title = holder.getConvertView().findViewById(R.id.tv_dialog_title);
+            TextView message = holder.getConvertView().findViewById(R.id.tv_dialog_message);
+            TextView ok = holder.getConvertView().findViewById(R.id.tv_dialog_ok);
+            TextView cancel = holder.getConvertView().findViewById(R.id.tv_dialog_cancel);
+            title.setText("提示!");
+            message.setText("确定要退出吗?");
+            ok.setOnClickListener(v -> {
+
+            });
+            cancel.setOnClickListener(v -> {
+                DialogUtils.dissmiss();
+            });
+        }
+    };
 
     @Override
     public void onClick(View v) {
