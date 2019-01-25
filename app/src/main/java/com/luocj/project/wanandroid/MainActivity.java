@@ -208,8 +208,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(new Intent(MainActivity.this, SettingActivity.class));
         } else if (id == R.id.nav_loginout) {
             SPUtils.getInstance().remove(Constants.LOGIN);
-
-            Log.i(TAG, "onNavigationItemSelected: " + SPUtils.getInstance().getString(Constants.LOGIN,"default"));
+            Log.i(TAG, "onNavigationItemSelected: " + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

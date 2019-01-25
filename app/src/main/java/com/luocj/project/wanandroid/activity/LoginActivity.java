@@ -13,17 +13,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
-import com.luocj.project.wanandroid.bean.GithubBean;
 import com.luocj.project.wanandroid.bean.LoginBean;
-import com.luocj.project.wanandroid.bean.RegisterBean;
-import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.tencent.bugly.crashreport.biz.UserInfoBean;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -52,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edPassword = findViewById(R.id.tiet_password);
 
         findViewById(R.id.btn_submit).setOnClickListener(this);
+        findViewById(R.id.btn_skip).setOnClickListener(this);
 
     }
 
@@ -65,7 +63,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_submit:
                 register();
                 break;
+            case R.id.btn_skip:
+                go2Main();
+                break;
         }
+    }
+
+    private void go2Main() {
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     private void register() {
@@ -95,34 +101,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             LoginBean.DataBean data = loginBean.getData();
                             data.setAvater("https://avatars3.githubusercontent.com/u/21009156?v=4");
                             SPUtils.getInstance().put(Constants.LOGIN, data.toString());
-                            Log.i(TAG, "onSuccess: login" + SPUtils.getInstance().getString(Constants.LOGIN,"default"));
-                            showError("登录成功！");
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    finish();
-                                }
-                            }, 1500);
+                            Log.i(TAG, "onSuccess: login" + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
+                            showToast("登录成功！");
+                            go2Main();
                         } else {
-                            showError(loginBean.getErrorMsg());
+                            showToast(loginBean.getErrorMsg());
                         }
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
-
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-
                     }
                 });
     }
 
-    private void showError(String error) {
+    private void showToast(String error) {
         Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -134,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private boolean validateAccount(String account) {
         if (TextUtils.isEmpty(account)) {
-            showError(tilAccount, "用户名不能为空");
+            showToast(tilAccount, "用户名不能为空");
             return false;
         }
         return true;
@@ -148,12 +147,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private boolean validatePassword(String password) {
         if (TextUtils.isEmpty(password)) {
-            showError(tilPassword, "密码不能为空");
+            showToast(tilPassword, "密码不能为空");
             return false;
         }
 
         if (password.length() < 6 || password.length() > 18) {
-            showError(tilPassword, "密码长度为6-18位");
+            showToast(tilPassword, "密码长度为6-18位");
             return false;
         }
 
@@ -166,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @param textInputLayout
      * @param error
      */
-    private void showError(TextInputLayout textInputLayout, String error) {
+    private void showToast(TextInputLayout textInputLayout, String error) {
         textInputLayout.setError(error);
         textInputLayout.getEditText().setFocusable(true);
         textInputLayout.getEditText().setFocusableInTouchMode(true);

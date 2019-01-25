@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
+import com.luocj.project.wanandroid.utils.Constants;
+import com.luocj.project.wanandroid.utils.SPUtils;
 
 import java.io.UTFDataFormatException;
 
@@ -35,7 +38,13 @@ public class SplashActivity extends AppCompatActivity {
                 obtain.what = what;
                 mHandler.sendMessageDelayed(obtain, 1000);
             } else {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                String login = SPUtils.getInstance().getString(Constants.LOGIN);
+
+                if (TextUtils.isEmpty(login)) {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
                 finish();
             }
         }
@@ -76,6 +85,5 @@ public class SplashActivity extends AppCompatActivity {
     private void initView() {
         time = findViewById(R.id.tv_time);
         imageview = findViewById(R.id.image);
-
     }
 }

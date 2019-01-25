@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.R;
-import com.luocj.project.wanandroid.activity.PublicActivity;
 import com.luocj.project.wanandroid.activity.WebViewActivity;
 import com.luocj.project.wanandroid.adapter.HomeAdapter;
 import com.luocj.project.wanandroid.bean.BannerBean;
@@ -32,7 +31,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +66,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initView(inflate);
-
     }
 
     private void initView(View inflate) {
@@ -91,7 +88,7 @@ public class HomeFragment extends Fragment {
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerviewHome.setLayoutManager(linearLayoutManager);
-        homeAdapter = new HomeAdapter(getActivity(),R.layout.item_home, null);
+        homeAdapter = new HomeAdapter(getActivity(), R.layout.item_home, null);
         headerBanner = LayoutInflater.from(mContext).inflate(R.layout.header_banner, smartFreshLayout, false);
         homeAdapter.addHeaderView(headerBanner);
         recyclerviewHome.setAdapter(homeAdapter);
@@ -117,21 +114,18 @@ public class HomeFragment extends Fragment {
         banner.setBannerTitles(data);
         banner.start();
 
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                switch (position) {
+        banner.setOnBannerListener(position -> {
+            switch (position) {
 //                    case 0:
 //                        startActivity(new Intent(mContext, PublicActivity.class));
 //                        break;
-                    default:
-                        Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                        intent.putExtra("link", dataBeans.get(position).getUrl());
-                        startActivity(intent);
-                        break;
-                }
-
+                default:
+                    Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                    intent.putExtra("link", dataBeans.get(position).getUrl());
+                    startActivity(intent);
+                    break;
             }
+
         });
 
     }

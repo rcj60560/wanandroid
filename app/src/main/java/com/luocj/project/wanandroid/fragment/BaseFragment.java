@@ -80,5 +80,4 @@ public abstract class BaseFragment extends Fragment {
         isViewCreated = false;
         isUIVisible = false;
     }
-
 }
