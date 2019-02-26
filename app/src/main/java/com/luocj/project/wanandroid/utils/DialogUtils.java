@@ -24,8 +24,8 @@ public class DialogUtils {
                 .show(fragmentManager);
     }
 
-    public static void dissmiss(){
-        if (dialog!=null){
+    public static void dissmiss() {
+        if (dialog != null) {
             dialog.dismiss();
         }
     }

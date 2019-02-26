@@ -11,11 +11,6 @@ import android.widget.TextView;
 import com.luocj.project.wanandroid.R;
 
 
-/**
- * Created by wangxw on 2017/2/10 0010 15:21.
- * E-mail:wangxw725@163.com
- * function:
- */
 public abstract class BaseFragment extends Fragment {
 
     private String mTextviewContent;
@@ -30,7 +25,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayouId(), container, false);
         initView(view);
-        return view ;
+        return view;
     }
 
     protected abstract void initView(View view);
@@ -69,9 +64,6 @@ public abstract class BaseFragment extends Fragment {
 
         }
     }
-
-
-
 
     @Override
     public void onDestroyView() {

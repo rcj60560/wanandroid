@@ -1,5 +1,6 @@
 package com.luocj.project.wanandroid.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.luocj.project.wanandroid.R;
@@ -20,10 +22,14 @@ import com.luocj.project.wanandroid.activity.WebViewActivity;
 import com.luocj.project.wanandroid.adapter.HomeAdapter;
 import com.luocj.project.wanandroid.bean.BannerBean;
 import com.luocj.project.wanandroid.bean.HomeDetailBean;
+import com.luocj.project.wanandroid.utils.Constants;
+import com.luocj.project.wanandroid.utils.DialogUtils;
 import com.luocj.project.wanandroid.utils.GlideImageLoader;
+import com.luocj.project.wanandroid.widget.dialog.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -37,7 +43,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-
     private static final String TAG = HomeFragment.class.getSimpleName();
     private Context mContext;
     private List<String> titles;
@@ -49,6 +54,7 @@ public class HomeFragment extends Fragment {
     private SmartRefreshLayout smartFreshLayout;
     private HomeAdapter homeAdapter;
     private LinearLayout rootview;
+    private RelativeLayout emptyview;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +77,8 @@ public class HomeFragment extends Fragment {
     private void initView(View inflate) {
         ClassicsHeader header = inflate.findViewById(R.id.header_home);
         RecyclerView recyclerviewHome = inflate.findViewById(R.id.recyclerview_home);
+        emptyview = inflate.findViewById(R.id.rl_empty);
+
         rootview = inflate.findViewById(R.id.rootview);
         smartFreshLayout = inflate.findViewById(R.id.smartrefreshlayout);
         smartFreshLayout.autoRefresh();
@@ -83,7 +91,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 refresh(refreshLayout, true);
-
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -92,8 +99,6 @@ public class HomeFragment extends Fragment {
         headerBanner = LayoutInflater.from(mContext).inflate(R.layout.header_banner, smartFreshLayout, false);
         homeAdapter.addHeaderView(headerBanner);
         recyclerviewHome.setAdapter(homeAdapter);
-
-        homeAdapter.setEmptyView(R.layout.empty_view, rootview);
 
     }
 
@@ -131,10 +136,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void refresh(RefreshLayout refreshlayout, final boolean isFresh) {
+
+        DialogUtils.showDialog(R.layout.dialog_loading,
+                (int) (Utils.getScreenWidth(mContext) * 0.8),
+                null,
+                getFragmentManager());
+
         refreshlayout.getLayout().postDelayed(() -> {
             if (isFresh) {
-                getHomeData();
                 getBanner();
+                getHomeData();
             } else {
                 getMoreHomeData();
             }
@@ -200,21 +211,32 @@ public class HomeFragment extends Fragment {
         OkGo.<String>get(url)
                 .tag("home")
                 .execute(new StringCallback() {
+
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                    }
+
                     @Override
                     public void onSuccess(Response<String> response) {
                         HomeDetailBean homeDetailBean = JSONObject.parseObject(response.body(), HomeDetailBean.class);
-                        homeAdapter.setNewData(homeDetailBean.getData().getDatas());
-                        smartFreshLayout.finishRefresh();
+                        if (homeDetailBean.getErrorCode() == 0) {
+                            homeAdapter.setNewData(homeDetailBean.getData().getDatas());
+                            smartFreshLayout.finishRefresh();
+                        } else {
+                            emptyview.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         Log.i(TAG, "onError: " + response.toString());
+                        emptyview.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onFinish() {
-
+                        DialogUtils.dissmiss();
                     }
                 });
     }
