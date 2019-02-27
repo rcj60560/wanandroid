@@ -1,6 +1,5 @@
 package com.luocj.project.wanandroid.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.luocj.project.wanandroid.activity.WebViewActivity;
 import com.luocj.project.wanandroid.adapter.HomeAdapter;
 import com.luocj.project.wanandroid.bean.BannerBean;
 import com.luocj.project.wanandroid.bean.HomeDetailBean;
-import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.DialogUtils;
 import com.luocj.project.wanandroid.utils.GlideImageLoader;
 import com.luocj.project.wanandroid.widget.dialog.Utils;
