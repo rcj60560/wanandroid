@@ -62,7 +62,7 @@ public class MineLoginFragment extends Fragment {
 //        inflate.findViewById(R.id.ttn_loginout).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                SPUtils.putBoolean(getActivity(), Constants.LOGIN, false);
+//                SPUtils.putBoolean(getActivity(), Constants.LOGIN_SAVE, false);
 //                ((MainActivity) mContext).changeTab(3);
 //            }
 //        });

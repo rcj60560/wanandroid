@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,8 +19,6 @@ import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
 import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.SPUtils;
-
-import java.io.UTFDataFormatException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -38,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
                 obtain.what = what;
                 mHandler.sendMessageDelayed(obtain, 1000);
             } else {
-                String login = SPUtils.getInstance().getString(Constants.LOGIN);
+                String login = SPUtils.getInstance().getString(Constants.LOGIN_SAVE);
 
                 if (TextUtils.isEmpty(login)) {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));

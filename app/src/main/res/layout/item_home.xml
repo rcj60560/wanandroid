@@ -35,8 +35,9 @@
 
         <ImageView
             android:id="@+id/iv_like"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:background="@drawable/select_like_or_not" />
@@ -97,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_bottom"
         android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="6dp"
         android:textColor="#44ff0000"
         tools:text=" " />

@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        SPUtils.putBoolean(MainActivity.this, Constants.LOGIN, false);
+//        SPUtils.putBoolean(MainActivity.this, Constants.LOGIN_SAVE, false);
         initView();
 
         initData();
@@ -250,7 +250,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 changeTab(TWO);
                 break;
             case R.id.iv_project:
-//                if (!SPUtils.getBoolean(MainActivity.this, Constants.LOGIN, false)) {
+//                if (!SPUtils.getBoolean(MainActivity.this, Constants.LOGIN_SAVE, false)) {
 //                    changeTab(THREE);
 //                } else {
 //                    changeTab(FOUTH);

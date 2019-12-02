@@ -134,12 +134,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void refresh(RefreshLayout refreshlayout, final boolean isFresh) {
-
-        DialogUtils.showDialog(R.layout.dialog_loading,
-                (int) (Utils.getScreenWidth(mContext) * 0.8),
-                null,
-                getFragmentManager());
-
         refreshlayout.getLayout().postDelayed(() -> {
             if (isFresh) {
                 getBanner();
@@ -205,7 +199,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getHomeData() {
-        String url = "http://www.wanandroid.com/article/list/" + 0 + "/json";
+        String url = "https://www.wanandroid.com/article/list/" + 0 + "/json";
         OkGo.<String>get(url)
                 .tag("home")
                 .execute(new StringCallback() {
@@ -234,7 +228,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFinish() {
-                        DialogUtils.dissmiss();
+//                        DialogUtils.dissmiss();
                     }
                 });
     }

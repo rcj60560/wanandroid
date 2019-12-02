@@ -3,11 +3,9 @@ package com.luocj.project.wanandroid.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,7 +15,6 @@ import com.luocj.project.wanandroid.activity.LoginActivity;
 import com.luocj.project.wanandroid.activity.WebViewActivity;
 import com.luocj.project.wanandroid.bean.HomeDetailBean;
 import com.luocj.project.wanandroid.utils.Constants;
-import com.luocj.project.wanandroid.utils.LoginUtils;
 import com.luocj.project.wanandroid.utils.SPUtils;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +51,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasB
         holder.getView(R.id.iv_like).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String result = (String) SPUtils.get(mContext, Constants.LOGIN, "");
+//                String result = (String) SPUtils.get(mContext, Constants.LOGIN_SAVE, "");
 //                Log.i(TAG, "onClick: " + result);
 //                if (TextUtils.isEmpty(string)) {
 //                    Toast.makeText(mContext, "登录了", Toast.LENGTH_SHORT).show();
@@ -63,13 +60,13 @@ public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasB
 //                    Toast.makeText(mContext, "未登录 去登录", Toast.LENGTH_SHORT).show();
 //                }
 
-                String string = SPUtils.getInstance().getString(Constants.LOGIN, "");
+                String string = SPUtils.getInstance().getString(Constants.LOGIN_SAVE, "");
                 if (TextUtils.isEmpty(string)) {
                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
                     Toast.makeText(mContext, "未登录 去登录", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i(TAG, "onClick: " + "dianzan");
-                    Log.i(TAG, "onClick: " + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
+                    Log.i(TAG, "onClick: " + SPUtils.getInstance().getString(Constants.LOGIN_SAVE, "default"));
 
                 }
 

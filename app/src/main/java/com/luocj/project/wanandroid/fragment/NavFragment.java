@@ -1,39 +1,29 @@
 package com.luocj.project.wanandroid.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luocj.project.wanandroid.MainActivity;
 import com.luocj.project.wanandroid.R;
-import com.luocj.project.wanandroid.activity.RegisterActivity;
 import com.luocj.project.wanandroid.adapter.LeftAdapter;
 import com.luocj.project.wanandroid.adapter.RightAdapter;
 import com.luocj.project.wanandroid.bean.NavigationBean;
 import com.luocj.project.wanandroid.bean.RegisterBean;
-import com.luocj.project.wanandroid.bean.UserBean;
 import com.luocj.project.wanandroid.utils.Constants;
 import com.luocj.project.wanandroid.utils.OKGO;
 import com.luocj.project.wanandroid.utils.SPUtils;
@@ -131,8 +121,8 @@ public class NavFragment extends Fragment {
                             showToast("登录成功！");
                             Log.i(TAG, "onSuccess: userName :----------->" + userBean.getData().getUsername());
 //                            getCollectList();
-                            SPUtils.getInstance().put(Constants.LOGIN, true);
-//                            SPUtils.putBoolean(getActivity(), Constants.LOGIN, true);
+                            SPUtils.getInstance().put(Constants.LOGIN_SAVE, true);
+//                            SPUtils.putBoolean(getActivity(), Constants.LOGIN_SAVE, true);
                             switchFragment();
                         } else {
                             showToast(userBean.getErrorMsg());

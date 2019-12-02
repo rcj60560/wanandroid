@@ -10,11 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -31,7 +29,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -249,7 +246,7 @@ public class PublicActivity extends AppCompatActivity {
 
             ImageView like = holder.getView(R.id.iv_like);
 
-            boolean isLogin = SPUtils.getInstance().getBoolean(Constants.LOGIN, false);
+            boolean isLogin = SPUtils.getInstance().getBoolean(Constants.LOGIN_SAVE, false);
 
             if (!isLogin) {
                 like.setSelected(false);

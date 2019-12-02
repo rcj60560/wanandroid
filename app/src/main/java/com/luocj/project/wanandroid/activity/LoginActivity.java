@@ -1,7 +1,6 @@
 package com.luocj.project.wanandroid.activity;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -86,8 +85,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void submit(String account, String password) {
-        String url = "http://www.wanandroid.com/user/login";
-        OkGo.<String>post(url)
+//        String url = "http://www.wanandroid.com/user/login";
+
+        OkGo.<String>post(Constants.BASE_URL + Constants.LOGIN)
                 .tag("register")
                 .params("username", account)
                 .params("password", password)
@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (errorCode == 0) {
                             LoginBean.DataBean data = loginBean.getData();
                             data.setAvater("https://avatars3.githubusercontent.com/u/21009156?v=4");
-                            SPUtils.getInstance().put(Constants.LOGIN, data.toString());
-                            Log.i(TAG, "onSuccess: login" + SPUtils.getInstance().getString(Constants.LOGIN, "default"));
+                            SPUtils.getInstance().put(Constants.LOGIN_SAVE, data.toString());
+                            Log.i(TAG, "onSuccess: login" + SPUtils.getInstance().getString(Constants.LOGIN_SAVE, "default"));
                             showToast("登录成功！");
                             go2Main();
                         } else {
