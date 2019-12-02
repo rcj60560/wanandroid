@@ -13,9 +13,6 @@ import com.luocj.project.wanandroid.R;
 
 public abstract class BaseFragment extends Fragment {
 
-    private String mTextviewContent;
-//    private MainActivity mMainActivity;
-
     //Fragment的View加载完毕的标记
     private boolean isViewCreated;
     //Fragment对用户可见的标记

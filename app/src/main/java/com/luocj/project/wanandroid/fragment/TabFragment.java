@@ -27,7 +27,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 @SuppressLint("ValidFragment")
 public class TabFragment extends BaseFragment {
 
-
     private static final String TAG = TabFragment.class.getSimpleName();
     private ProjectBean.DataBean mDatas;
     private TextView content;
