@@ -87,7 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/btn_bg"
-        android:text="登录" />
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_skip"
@@ -95,7 +97,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/btn_bg"
-        android:text="暂不登录" />
+        android:text="暂不登录"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
 
 </LinearLayout>

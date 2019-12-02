@@ -37,9 +37,9 @@
             android:id="@+id/iv_like"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="2dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/select_like_or_not" />
 
         <RelativeLayout

@@ -59,7 +59,6 @@ public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasB
 //                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
 //                    Toast.makeText(mContext, "未登录 去登录", Toast.LENGTH_SHORT).show();
 //                }
-
                 String string = SPUtils.getInstance().getString(Constants.LOGIN_SAVE, "");
                 if (TextUtils.isEmpty(string)) {
                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
@@ -67,9 +66,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeDetailBean.DataBean.DatasB
                 } else {
                     Log.i(TAG, "onClick: " + "dianzan");
                     Log.i(TAG, "onClick: " + SPUtils.getInstance().getString(Constants.LOGIN_SAVE, "default"));
-
                 }
-
             }
         });
 
